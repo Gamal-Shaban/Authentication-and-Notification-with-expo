@@ -16,13 +16,7 @@ export default class LoginScreen extends Component {
   }
 
   static navigationOptions = ({ navigation }) => ({
-    title: 'Log in',
-    headerStyle: {
-      backgroundColor: 'white'
-    },
-    headerTitleStyle: {
-      fontWeight: '400'
-    }
+    title: 'Log in'
   })
 
   OnPress = () => {
@@ -48,13 +42,24 @@ export default class LoginScreen extends Component {
     return (
       <View style={styles.container}>
         <Input
+          placeholder='email'
           onChangeText={i => this.setState({ email: i })}
         />
         <Input
+          placeholder='password'
           onChangeText={i => this.setState({ password: i })}
         />
-        <Button title='Login' onPress={this.OnPress} />
-        <Button title='SignUp' onPress={this.OnPressSignUp} />
+        <Button
+          title='Login'
+          buttonStyle={styles.loginButton}
+          textStyle={styles.loginText}
+          onPress={this.OnPress}
+        />
+        <Button
+          title='SignUp'
+          buttonStyle={styles.signupButton}
+          onPress={this.OnPressSignUp}
+        />
       </View>
     )
   }
@@ -64,7 +69,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignSelf: 'stretch',
-    alignItems: 'center',
-    justifyContent: 'center'
+    marginHorizontal: 20,
+    marginTop: '20%'
+  },
+  loginButton: {
+    backgroundColor: 'yellow',
+    marginTop: 24
+  },
+  signupButton: {
+    backgroundColor: 'green'
   }
 })

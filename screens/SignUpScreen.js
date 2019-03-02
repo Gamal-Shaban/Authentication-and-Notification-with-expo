@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { View, Button, TextInput, StyleSheet } from 'react-native'
+import { View, TextInput, StyleSheet } from 'react-native'
 import * as firebase from 'firebase'
-import { StackActions, NavigationActions } from 'react-navigation';
+import Button from '../components/Button'
+import { StackActions, NavigationActions } from 'react-navigation'
 import Input from '../components/Input'
 export default class SignupScreen extends Component {
   constructor (props) {
@@ -9,53 +10,85 @@ export default class SignupScreen extends Component {
     this.state = {
       email: '',
       password: '',
+      confirmPassword: '',
       loading: false
     }
-    
   }
+  static navigationOptions = ({ navigation }) => ({
+    title: 'Sign Up'
+  })
 
   OnPress = () => {
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(i => {
-        console.log('iii', i)
-        alert('congratulation')
-      })
-      .catch(e => alert(e))
+    if (this.state.password !== this.state.confirmPassword) {
+      alert('password not matched')
+    } else {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(i => {
+          console.log('iii', i)
+          alert('congratulation')
+        })
+        .catch(e => alert(e))
+    }
   }
 
-  OnPressBackToLogin = () =>{
+  OnPressBackToLogin = () => {
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'Login' })],
-    });
-    this.props.navigation.dispatch(resetAction);
+      actions: [NavigationActions.navigate({ routeName: 'Login' })]
+    })
+    this.props.navigation.dispatch(resetAction)
   }
 
   render () {
     return (
-      <View>
+      <View style={styles.container}>
         <Input
+          placeholder='email'
           onChangeText={i => this.setState({ email: i })}
-          
         />
         <Input
+          placeholder='password'
           onChangeText={i => this.setState({ password: i })}
         />
-        <Button title='SignUP' onPress={this.OnPress} />
-        <Button title='Back To Login' onPress={this.OnPressBackToLogin} />
+        <Input
+          placeholder='confirm password'
+          onChangeText={i => this.setState({ confirmPassword: i })}
+        />
+        <Button
+          buttonStyle={styles.signup}
+          title='SignUP'
+          onPress={this.OnPress}
+        />
+        <Button
+          buttonStyle={styles.backToLogin}
+          title='Back To Login'
+          onPress={this.OnPressBackToLogin}
+        />
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignSelf: 'stretch',
+    marginHorizontal: 20,
+    marginTop: '20%'
+  },
   input: {
     height: 30,
     alignSelf: 'stretch',
     backgroundColor: 'yellow',
     color: 'red',
     margin: 20
+  },
+  signup: {
+    backgroundColor: 'yellow'
+  },
+  backToLogin: {
+    backgroundColor: 'green'
   }
 })

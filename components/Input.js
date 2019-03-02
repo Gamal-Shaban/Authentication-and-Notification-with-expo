@@ -5,7 +5,7 @@ export default class Input extends Component {
   render () {
     return (
       <View style={styles.container}>
-        <TextInput style={styles.input} {...this.props} />
+        <TextInput style={styles.input} autoCapitalize='none' {...this.props} />
         {this.props.error ? <Text>this.props.error</Text> : <Fragment />}
       </View>
     )
@@ -17,10 +17,12 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch'
   },
   input: {
-    height: 30,
+    height: 40,
     alignSelf: 'stretch',
-    backgroundColor: 'yellow',
-    color: 'red',
-    margin: 20
+    margin: 20,
+    marginVertical: 10,
+    borderColor: 'grey',
+    borderWidth: 0.5,
+    padding: 5
   }
 })

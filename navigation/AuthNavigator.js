@@ -5,7 +5,15 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 const StackNavigator = createStackNavigator({
     Login: LoginScreen,
-    SignUp: SignUpScreen
+    SignUp: SignUpScreen,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: 'white'
+      },
+      headerTitleStyle: {
+        fontWeight: '400'
+      }
+    })
   })
   const AppContainer = createAppContainer(StackNavigator);
   export default AppContainer
