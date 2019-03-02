@@ -4,8 +4,8 @@ import { TouchableOpacity, Text , StyleSheet} from 'react-native';
 export default class Button extends Component {
   render() {
     return (
-      <TouchableOpacity style={[styles.button, this.props.style]} {...this.props} >
-      <Text>
+      <TouchableOpacity style={[styles.button, this.props.buttonStyle]} {...this.props} >
+      <Text style={[styles.text, this.props.textStyle]} >
           {this.props.title}
       </Text>
         
@@ -23,6 +23,9 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         alignSelf: 'stretch',
         marginHorizontal: 16,
-        marginVertical: 10,
+        marginVertical: 15,
+    },
+    text:{
+      fontSize: 18
     }
 })
