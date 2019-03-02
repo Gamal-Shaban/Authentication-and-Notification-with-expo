@@ -1,13 +1,17 @@
 import React, { Component } from 'react'
-import { TouchableOpacity, Text , StyleSheet} from 'react-native';
+import { TouchableOpacity, Text , StyleSheet, ActivityIndicator } from 'react-native';
 
 export default class Button extends Component {
   render() {
     return (
       <TouchableOpacity style={[styles.button, this.props.buttonStyle]} {...this.props} >
+      {this.props.loading ?
+        <ActivityIndicator size= 'small' style={this.props.styleLoading} />
+      :
       <Text style={[styles.text, this.props.textStyle]} >
           {this.props.title}
       </Text>
+      }
         
       </TouchableOpacity>
     )
