@@ -22,14 +22,17 @@ export default class SignupScreen extends Component {
     if (this.state.password !== this.state.confirmPassword) {
       alert('password not matched')
     } else {
+      this.setState({ loading: true })
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(i => {
-          console.log('iii', i)
-          alert('congratulation')
+          this.setState({ loading: false })
         })
-        .catch(e => alert(e))
+        .catch(e => {
+          this.setState({ loading: false })
+          alert(e)
+        })
     }
   }
 
@@ -59,6 +62,7 @@ export default class SignupScreen extends Component {
         <Button
           buttonStyle={styles.signup}
           title='SignUP'
+          loading={this.state.loading}
           onPress={this.OnPress}
         />
         <Button

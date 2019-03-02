@@ -20,14 +20,17 @@ export default class LoginScreen extends Component {
   })
 
   OnPress = () => {
+    this.setState({ loading: true })
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(i => {
-        console.log('iii', i)
-        alert('congratulation')
+        this.setState({ loading: false })
       })
-      .catch(e => alert(e))
+      .catch(e => {
+        this.setState({ loading: false })
+        alert(e)
+      })
   }
 
   OnPressSignUp = () => {
@@ -53,6 +56,7 @@ export default class LoginScreen extends Component {
           title='Login'
           buttonStyle={styles.loginButton}
           textStyle={styles.loginText}
+          loading={this.state.loading}
           onPress={this.OnPress}
         />
         <Button
