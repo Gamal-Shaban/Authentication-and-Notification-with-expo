@@ -1,5 +1,11 @@
 import React from 'react'
-import { Platform, StatusBar, StyleSheet, View } from 'react-native'
+import {
+  Platform,
+  StatusBar,
+  StyleSheet,
+  View,
+  ActivityIndicator
+} from 'react-native'
 import { AppLoading, Asset, Font, Icon } from 'expo'
 import * as firebase from 'firebase'
 import AppNavigator from './navigation/AppNavigator'
@@ -12,7 +18,8 @@ export default class App extends React.Component {
     this.state = {
       isLoadingComplete: false,
       isAuthenticationReady: false,
-      isAuthenticated: false
+      isAuthenticated: false,
+      loading: true
     }
     if (!firebase.apps.length) {
       firebase.initializeApp(ApiKeys.firebaseConfig)
@@ -20,8 +27,19 @@ export default class App extends React.Component {
     firebase.auth().onAuthStateChanged(this.onAuthStateChanged)
   }
   onAuthStateChanged = user => {
-    this.setState({ isAuthenticationReady: true })
-    this.setState({ isAuthenticated: !!user })
+    if (user) {
+      this.setState({
+        isAuthenticationReady: true,
+        isAuthenticated: true,
+        loading: false
+      })
+    } else {
+      this.setState({
+        isAuthenticationReady: true,
+        isAuthenticated: false,
+        loading: false
+      })
+    }
   }
 
   render () {
@@ -36,6 +54,12 @@ export default class App extends React.Component {
           onError={this._handleLoadingError}
           onFinish={this._handleFinishLoading}
         />
+      )
+    } else if (this.state.loading) {
+      return (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size='large' color='gray' />
+        </View>
       )
     } else {
       return (
@@ -78,5 +102,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff'
+  },
+  loadingContainer: {
+    flex: 1,
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })
