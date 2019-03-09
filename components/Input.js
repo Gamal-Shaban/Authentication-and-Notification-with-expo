@@ -4,7 +4,7 @@ import { TextInput, StyleSheet, View } from 'react-native'
 export default class Input extends Component {
   render () {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, this.props.inputContainer]}>
         <TextInput style={styles.input} autoCapitalize='none' {...this.props} />
         {this.props.error ? <Text>this.props.error</Text> : <Fragment />}
       </View>

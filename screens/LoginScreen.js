@@ -50,6 +50,7 @@ export default class LoginScreen extends Component {
         />
         <Input
           placeholder='password'
+          secureTextEntry
           onChangeText={i => this.setState({ password: i })}
         />
         <Button
