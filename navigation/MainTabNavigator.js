@@ -49,6 +49,11 @@ const TabNavigator = createBottomTabNavigator({
 
 const StackNavigator = createStackNavigator({
   TabNavigator
+},{
+  defaultNavigationOptions : {
+    header: null,
+    headerMode: 'none'
+  }
 })
 const AppContainer = createAppContainer(StackNavigator);
 
