@@ -15,7 +15,8 @@ export default class HomeScreen extends React.Component {
     this.state = {
       changePasswordLoading: false,
       currentPassword: '',
-      newPassword: ''
+      newPassword: '',
+      newEmail: ''
     }
   }
 
@@ -68,6 +69,34 @@ export default class HomeScreen extends React.Component {
     }
   }
 
+  changeEmail = () =>{
+    if (
+      this.state.newEmail.length < 1 
+    ) {
+      Alert.alert('empty input')
+    } else {
+      this.setState({ changeEmailLoading: true })
+      this.reauthenticate(this.state.currentPassword)
+        .then(() => {
+          firebase
+            .auth()
+            .currentUser.updateEmail(this.state.newEmail)
+            .then(res => {
+              this.setState({ changeEmailLoading: false })
+              Alert.alert('Email was change')
+            })
+            .catch(err => {
+              this.setState({ changeEmailLoading: false })
+              alert(err.message)
+            })
+        })
+        .catch(err => {
+          this.setState({ changeEmailLoading: false })
+          Alert.alert(err.message)
+        })
+    }
+  }
+
   render () {
     return (
       <View style={styles.container}>
@@ -98,6 +127,18 @@ export default class HomeScreen extends React.Component {
             buttonStyle={styles.changePasswordButton}
             onPress={this.changePassword}
             loading={this.state.changePasswordLoading}
+          />
+          <Input
+            placeholder='New Email'
+            keyboardType='email-address'
+            onChangeText={i => this.setState({ newEmail: i })}
+            inputContainer={styles.passwordInputContainer}
+          />
+          <Button
+            title='Change Email'
+            buttonStyle={styles.changePasswordButton}
+            onPress={this.changeEmail}
+            loading={this.state.changeEmailLoading}
           />
         </ScrollView>
       </View>
