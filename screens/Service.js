@@ -1,4 +1,6 @@
 import { Permissions, Notifications } from 'expo'
+import * as firebase from 'firebase'
+
 
 const registerForPushNotificationsAsync = async () => {
   const { status: existingStatus } = await Permissions.getAsync(
@@ -22,6 +24,10 @@ const registerForPushNotificationsAsync = async () => {
 
   // Get the token that uniquely identifies this device
   let token = await Notifications.getExpoPushTokenAsync()
-      console.log('NOTIFICATIONS', token)
+      console.log('NOTIFICATIONS>>>', token)
+      let uid = firebase.auth().currentUser.uid
+      firebase.database().ref("users").child(uid).update({
+        expoPushToken: token
+      })
 }
 export default  registerForPushNotificationsAsync 
